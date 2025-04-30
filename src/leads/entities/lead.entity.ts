@@ -47,15 +47,15 @@ export class Lead {
   @Column()
   passenger_count: number;
 
-  @Column()
+  @Column({ nullable: true })
   special_requirements: string;
 
-  @Column()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column()
+  @Column({ type: 'timestamp', nullable: true })
   updated_at: Date;
 
-  @Column()
+  @Column({ type: 'timestamp', nullable: true })
   deleted_at: Date;
 }

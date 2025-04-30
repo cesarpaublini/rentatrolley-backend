@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
 // eslint-disable-next-line prettier/prettier
-import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateLeadDto {
   @IsNotEmpty()
@@ -29,7 +29,7 @@ export class CreateLeadDto {
   event_type_id: number;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   event_date: Date;
 
   @IsNotEmpty()
@@ -41,7 +41,7 @@ export class CreateLeadDto {
   drop_city_id: number;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   pickup_date_time: Date;
 
   @IsNotEmpty()

@@ -1,14 +1,21 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
+import { Logger } from '@nestjs/common';
 
 @Controller('leads')
 export class LeadsController {
-  constructor(private readonly leadsService: LeadsService) {}
+  private readonly logger = new Logger(LeadsController.name);
+  constructor(private readonly leadsService: LeadsService) { }
 
   @Post()
   create(@Body() createLeadDto: CreateLeadDto) {
+    this.logger.log(`event_date type: ${typeof createLeadDto.event_date}`);
+    this.logger.log(
+      `pickup_date_time type: ${typeof createLeadDto.pickup_date_time}`,
+    );
     return this.leadsService.create(createLeadDto);
   }
 

@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
-
+import { Lead } from './entities/lead.entity';
+import { Repository, UpdateResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class LeadsService {
-  create(createLeadDto: CreateLeadDto) {
-    return 'This action adds a new lead';
+  constructor(
+    @InjectRepository(Lead) private readonly leadRepository: Repository<Lead>,
+  ) {}
+  create(createLeadDto: CreateLeadDto): Promise<Lead> {
+    return this.leadRepository.save(createLeadDto);
   }
 
-  findAll() {
-    return `This action returns all leads`;
+  findAll(): Promise<Lead[]> {
+    return this.leadRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lead`;
+  findOne(id: number): Promise<Lead | null> {
+    return this.leadRepository.findOneBy({ id });
   }
 
-  update(id: number, updateLeadDto: UpdateLeadDto) {
-    return `This action updates a #${id} lead`;
+  update(id: number, updateLeadDto: UpdateLeadDto): Promise<UpdateResult> {
+    return this.leadRepository.update(id, updateLeadDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} lead`;
+    return this.leadRepository.update(id, { deleted_at: new Date() });
   }
 }
