@@ -4,13 +4,25 @@ import { UpdateLeadDto } from './dto/update-lead.dto';
 import { Lead } from './entities/lead.entity';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MailService } from '../mail/mail.service';
 @Injectable()
 export class LeadsService {
   constructor(
     @InjectRepository(Lead) private readonly leadRepository: Repository<Lead>,
+    private readonly mailService: MailService,
   ) {}
-  create(createLeadDto: CreateLeadDto): Promise<Lead> {
-    return this.leadRepository.save(createLeadDto);
+  async create(createLeadDto: CreateLeadDto): Promise<Lead> {
+    const lead = this.leadRepository.create(createLeadDto);
+    const savedLead = await this.leadRepository.save(lead);
+    await this.mailService.sendEmail(
+      savedLead.email,
+      'Welcome Rent a Trolley',
+      'This is a test email',
+      {
+        name: `${savedLead.first_name} ${savedLead.last_name}`,
+      },
+    );
+    return savedLead;
   }
 
   findAll(): Promise<Lead[]> {
