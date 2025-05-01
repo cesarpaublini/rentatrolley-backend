@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStateDto } from './dto/create-state.dto';
 import { UpdateStateDto } from './dto/update-state.dto';
+import { State } from './entities/state.entity';
+import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class StatesService {
+  constructor(
+    @InjectRepository(State)
+    private stateRepository: Repository<State>,
+  ) {}
+
   create(createStateDto: CreateStateDto) {
-    return 'This action adds a new state';
+    return this.stateRepository.save(createStateDto);
   }
 
-  findAll() {
-    return `This action returns all states`;
+  findAll(): Promise<State[]> {
+    return this.stateRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} state`;
+  findOne(id: number): Promise<State | null> {
+    return this.stateRepository.findOneBy({ id });
   }
 
-  update(id: number, updateStateDto: UpdateStateDto) {
-    return `This action updates a #${id} state`;
+  update(id: number, updateStateDto: UpdateStateDto): Promise<UpdateResult> {
+    return this.stateRepository.update(id, updateStateDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} state`;
+  remove(id: number): Promise<DeleteResult> {
+    return this.stateRepository.delete(id);
   }
 }
