@@ -25,7 +25,7 @@ export class LeadsService {
     return this.leadRepository.update(id, updateLeadDto);
   }
 
-  remove(id: number) {
+  remove(id: number): Promise<UpdateResult> {
     return this.leadRepository.update(id, { deleted_at: new Date() });
   }
 }

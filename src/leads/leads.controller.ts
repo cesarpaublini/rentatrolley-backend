@@ -1,40 +1,51 @@
-/* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
-import { Logger } from '@nestjs/common';
-
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @Controller('leads')
 export class LeadsController {
-  private readonly logger = new Logger(LeadsController.name);
-  constructor(private readonly leadsService: LeadsService) { }
+  constructor(private readonly leadsService: LeadsService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new lead' })
+  @ApiTags('Leads')
   create(@Body() createLeadDto: CreateLeadDto) {
-    this.logger.log(`event_date type: ${typeof createLeadDto.event_date}`);
-    this.logger.log(
-      `pickup_date_time type: ${typeof createLeadDto.pickup_date_time}`,
-    );
     return this.leadsService.create(createLeadDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all leads' })
+  @ApiTags('Leads')
   findAll() {
     return this.leadsService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get a lead by ID' })
+  @ApiTags('Leads')
   findOne(@Param('id') id: string) {
     return this.leadsService.findOne(+id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update a lead by ID' })
+  @ApiTags('Leads')
   update(@Param('id') id: string, @Body() updateLeadDto: UpdateLeadDto) {
     return this.leadsService.update(+id, updateLeadDto);
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a lead by ID' })
+  @ApiTags('Leads')
   remove(@Param('id') id: string) {
     return this.leadsService.remove(+id);
   }
