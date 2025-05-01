@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCityEventTypeDto } from './dto/create-city-event-type.dto';
 import { UpdateCityEventTypeDto } from './dto/update-city-event-type.dto';
-
+import { CityEventType } from './entities/city-event-type.entity';
+import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class CityEventTypesService {
+  constructor(
+    @InjectRepository(CityEventType)
+    private cityEventTypeRepository: Repository<CityEventType>,
+  ) {}
+
   create(createCityEventTypeDto: CreateCityEventTypeDto) {
-    return 'This action adds a new cityEventType';
+    return this.cityEventTypeRepository.save(createCityEventTypeDto);
   }
 
-  findAll() {
-    return `This action returns all cityEventTypes`;
+  findAll(): Promise<CityEventType[]> {
+    return this.cityEventTypeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cityEventType`;
+  findOne(id: number): Promise<CityEventType | null> {
+    return this.cityEventTypeRepository.findOneBy({ id });
   }
 
-  update(id: number, updateCityEventTypeDto: UpdateCityEventTypeDto) {
-    return `This action updates a #${id} cityEventType`;
+  update(
+    id: number,
+    updateCityEventTypeDto: UpdateCityEventTypeDto,
+  ): Promise<UpdateResult> {
+    return this.cityEventTypeRepository.update(id, updateCityEventTypeDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cityEventType`;
+  remove(id: number): Promise<DeleteResult> {
+    return this.cityEventTypeRepository.delete(id);
   }
 }
