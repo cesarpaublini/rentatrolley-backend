@@ -22,6 +22,15 @@ services:
     ports:
       - "3000:3000"
     command: npm run start:prod
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: package.json
 
 volumes:
   postgres_data:
