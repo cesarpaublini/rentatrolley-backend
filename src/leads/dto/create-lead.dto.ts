@@ -1,7 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
-// eslint-disable-next-line prettier/prettier
-import { IsBoolean, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class CreateLeadDto {
   @ApiProperty({ description: 'The first name of the lead', example: 'John' })
