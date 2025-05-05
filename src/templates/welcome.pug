@@ -1,30 +1,199 @@
 doctype html
 html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Welcome Email
-    style.
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        margin: 0;
-        padding: 20px;
-      }
-      .container {
-        max-width: 600px;
-        margin: auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border: 1px solid #dddddd;
-      }
-      .header {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-  body
-    .container
-      .header
-        h1 Welcome!
-      p Hello #{name},
-      p This is a test email:
+head
+  meta(charset='UTF-8')
+  title Trip Details - Rent a Trolley
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet')
+  style.
+    body {
+    font-family: "Inter", sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    }
+    .container {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    }
+    .header {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #000000f5;
+    color: #fff
+    }
+    .section {
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+    }
+    .trip-info {
+    font-size: 14px;
+    color: #ffffffcc;
+    }
+    .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    }
+    .vehicle-title {
+    font-size: 20px;
+    margin: 15px 0 5px;
+    color: #003399;
+    }
+    .price-block {
+    font-size: 16px;
+    margin-top: 10px;
+    }
+    .button {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: oklch(57.7% 0.245 27.325);
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    }
+    .vehicle-info {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    }
+    .vehicle-image {
+    width: 100%;
+    max-width: 300px;
+    }
+    .image {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    }
+    .small-img {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    }
+    .small-img img {
+    width: calc(25% - 7.5px);
+    height: auto;
+    border-radius: 6px;
+    }
+    .review-stars {
+    color: #28a745;
+    font-size: 16px;
+    }
+    .no-fees {
+    font-style: italic;
+    margin-top: 10px;
+    }
+    .highlight {
+    color: oklch(62.7% 0.194 149.214);
+    font-weight: bold;
+    }
+    .metrics {
+    color: green;
+    font-size: 14px;
+    }
+    .featured-pick>h2 {
+    text-align: center;
+    }
+    .top-pick {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+    }
+    .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #000000f5;
+    color: #fff;
+    height: 60px;
+    gap: 10px;
+    font-size: 12px;
+    }
+    .footer>a {
+    color: #fff;
+    text-decoration: none;
+    }
+    .footer a:hover {
+    text-decoration: underline;
+    }
+.container
+  .header
+    //
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Trustpilot_logo.png/320px-Trustpilot_logo.png"
+      width="120" alt="Rent a Trolley">
+    .title Trip Details
+    .trip-info
+      | Pick Up Location: Tampa, Florida
+      br
+      |         Destination: Tampa, Florida
+      br
+      |         Date: Saturday Apr 25, 2026 - 5:30 PM
+  .section
+    p.highlight
+      | Rent a Trolley is One of the Nation&apos;s Largest, Highest Rated Limousine &amp; Bus Providers
+    p.metrics &#x2714; 13 Years in Business &nbsp; &#x2714; 3,500+ 5-Star Reviews &nbsp; &#x2714; 1,000,000+ Riders
+  .section
+    .vehicle-title 6 Passenger Non-Stretch SUV
+    .vehicle-info
+      .vehicle-image
+        img.image(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+        .small-img
+          img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+          img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+          img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+          img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+      div
+        .price-block
+          | Min hours: 8 at 
+          strong $250/hr
+          a.button(href='#') Book Now
+        .no-fees No Hidden Fees, Service Charge Included!
+    .section
+      .vehicle-title Black 8 Passenger Lincoln MKT Limo
+      .vehicle-info
+        div
+          .price-block
+            | Min hours: 8 at 
+            strong $250/hr
+            a.button(href='#') Book Now
+          .no-fees No Hidden Fees, Service Charge Included!
+        .vehicle-image
+          img.image(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+          .small-img
+            img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+            img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+            img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+            img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
+    .featured-pick
+      h2 This Week&apos;s Top Picks
+      .top-pick
+        img.image(src='/src/static/images/bachelorette.jpg' alt='Bachelorette Parties' style='width: 40%; border-radius: 6px;')
+        div(style='width: 60%;')
+          h3 Bachelorette Parties
+          p Celebrate with your crew in a one-of-a-kind trolley everyone will remember.
+          a(href='#' style='color: #003399; text-decoration: none;') Read More&gt;&gt;
+      .top-pick
+        img.image(src='/src/static/images/charter-bus-rentals.jpg' alt='Charter Bus Rentals' style='width: 40%; border-radius: 6px;')
+        div(style='width: 60%;')
+          h3 Charter Bus Rentals
+          p Travel in style with our fleet of charter buses.
+          a(href='#' style='color: #003399; text-decoration: none;') Read More&gt;&gt;
+      .top-pick
+        img.image(src='/src/static/images/prom.jpg' alt='Prom Party Bus Rentals' style='width: 40%; border-radius: 6px;')
+        div(style='width: 60%;')
+          h3 Prom Party Bus Rentals
+          p A safe, photo-worthy option for an unforgettable night.
+          a(href='#' style='color: #003399; text-decoration: none;') Read More&gt;&gt;
+  footer.footer
+    p &copy; 2025 Rent A Trolley. All rights reserved.
+    a(href='https://www.rentatrolley.com/terms-of-service') Terms of Service
