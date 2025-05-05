@@ -22,4 +22,12 @@ export class CreateCountryDto {
   @IsNotEmpty()
   @IsString()
   currency_iso: string;
+
+  @ApiProperty({
+    description: 'The abbreviation of the country',
+    example: 'USA',
+  })
+  @IsNotEmpty()
+  @IsString()
+  abbreviation: string;
 }

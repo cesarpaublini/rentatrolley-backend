@@ -15,8 +15,20 @@ export class CitiesService {
     return this.cityRepository.save(createCityDto);
   }
 
-  findAll(): Promise<City[]> {
-    return this.cityRepository.find();
+  async findAll(): Promise<Partial<City>[]> {
+    const cities = await this.cityRepository.find({
+      relations: ['state'],
+      select: {
+        state: {
+          name: true,
+          abbreviation: true,
+        },
+      },
+    });
+    return cities.map((city) => {
+      const { state, ...rest } = city;
+      return { id: rest.id, name: rest.name, state };
+    });
   }
 
   findOne(id: number): Promise<City | null> {

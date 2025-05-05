@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Country } from '../../countries/entities/country.entity';
 
 @Entity('states')
 export class State {
@@ -10,15 +17,20 @@ export class State {
 
   @Column()
   abbreviation: string;
+
+  @ManyToOne(() => Country)
+  @JoinColumn({ name: 'country_id' })
+  country: Country;
+
   @Column()
   country_id: number;
 
-  @Column()
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column()
+  @Column({ nullable: true })
   updated_at: Date;
 
-  @Column()
+  @Column({ nullable: true })
   deleted_at: Date;
 }

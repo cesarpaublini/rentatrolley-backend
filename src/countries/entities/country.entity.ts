@@ -17,12 +17,12 @@ export class Country {
   @Column()
   abbreviation: string;
 
-  @Column()
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column()
+  @Column({ nullable: true })
   updated_at: Date;
 
-  @Column()
+  @Column({ nullable: true })
   deleted_at: Date;
 }

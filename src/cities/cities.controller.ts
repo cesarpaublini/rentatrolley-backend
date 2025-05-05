@@ -27,7 +27,7 @@ export class CitiesController {
   @Get()
   @ApiOperation({ summary: 'Get all cities' })
   @ApiTags('Cities')
-  findAll(): Promise<City[]> {
+  findAll(): Promise<Partial<City>[]> {
     return this.citiesService.findAll();
   }
 
