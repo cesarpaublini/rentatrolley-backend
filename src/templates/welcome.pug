@@ -133,11 +133,12 @@ head
       width="120" alt="Rent a Trolley">
     .title Trip Details
     .trip-info
-      | Pick Up Location: Tampa, Florida
-      br
-      |         Destination: Tampa, Florida
-      br
-      |         Date: Saturday Apr 25, 2026 - 5:30 PM
+      p
+        | Pick Up Location: #{pickup_city_name}, #{pickup_city_state_name}
+        br
+        | Destination: #{drop_city_name}, #{drop_city_state_name}
+        br
+        | Date: #{pickup_date_time}
   .section
     p.highlight
       | Rent a Trolley is One of the Nation&apos;s Largest, Highest Rated Limousine &amp; Bus Providers
@@ -174,26 +175,6 @@ head
             img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
             img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
             img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png?auto=format,compress&fit=max&q=45&w=640&width=640' alt='6 Passenger SUV' loading='lazy')
-    .featured-pick
-      h2 This Week&apos;s Top Picks
-      .top-pick
-        img.image(src='/src/static/images/bachelorette.jpg' alt='Bachelorette Parties' style='width: 40%; border-radius: 6px;')
-        div(style='width: 60%;')
-          h3 Bachelorette Parties
-          p Celebrate with your crew in a one-of-a-kind trolley everyone will remember.
-          a(href='#' style='color: #003399; text-decoration: none;') Read More&gt;&gt;
-      .top-pick
-        img.image(src='/src/static/images/charter-bus-rentals.jpg' alt='Charter Bus Rentals' style='width: 40%; border-radius: 6px;')
-        div(style='width: 60%;')
-          h3 Charter Bus Rentals
-          p Travel in style with our fleet of charter buses.
-          a(href='#' style='color: #003399; text-decoration: none;') Read More&gt;&gt;
-      .top-pick
-        img.image(src='/src/static/images/prom.jpg' alt='Prom Party Bus Rentals' style='width: 40%; border-radius: 6px;')
-        div(style='width: 60%;')
-          h3 Prom Party Bus Rentals
-          p A safe, photo-worthy option for an unforgettable night.
-          a(href='#' style='color: #003399; text-decoration: none;') Read More&gt;&gt;
   footer.footer
     p &copy; 2025 Rent A Trolley. All rights reserved.
     a(href='https://www.rentatrolley.com/terms-of-service') Terms of Service
