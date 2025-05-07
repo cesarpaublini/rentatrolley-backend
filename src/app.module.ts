@@ -10,8 +10,23 @@ import { EventTypesModule } from './event-types/event-types.module';
 import { LeadsModule } from './leads/leads.module';
 import { CityEventTypesModule } from './city-event-types/city-event-types.module';
 import { MailModule } from './mail/mail.module';
+import { StripeModule } from './stripe/stripe.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [DatabaseModule, CountriesModule, StatesModule, CitiesModule, EventTypesModule, LeadsModule, CityEventTypesModule, MailModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    DatabaseModule,
+    CountriesModule,
+    StatesModule,
+    CitiesModule,
+    EventTypesModule,
+    LeadsModule,
+    CityEventTypesModule,
+    MailModule,
+    StripeModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
