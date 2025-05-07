@@ -4,9 +4,9 @@ import { LeadsController } from './leads.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Lead } from './entities/lead.entity';
 import { MailModule } from 'src/mail/mail.module';
-
+import { City } from 'src/cities/entities/city.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([Lead]), MailModule],
+  imports: [TypeOrmModule.forFeature([Lead, City]), MailModule],
   controllers: [LeadsController],
   providers: [LeadsService],
 })

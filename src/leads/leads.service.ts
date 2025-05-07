@@ -5,24 +5,56 @@ import { Lead } from './entities/lead.entity';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MailService } from '../mail/mail.service';
+import { City } from '../cities/entities/city.entity';
+
 @Injectable()
 export class LeadsService {
   constructor(
     @InjectRepository(Lead) private readonly leadRepository: Repository<Lead>,
     private readonly mailService: MailService,
+    @InjectRepository(City) private readonly cityRepository: Repository<City>,
   ) {}
-  async create(createLeadDto: CreateLeadDto): Promise<Lead> {
+
+  async create(createLeadDto: CreateLeadDto): Promise<any> {
     const lead = this.leadRepository.create(createLeadDto);
     const savedLead = await this.leadRepository.save(lead);
+
+    // Fetch city names
+    const pickupCity = await this.cityRepository.findOne({
+      where: { id: savedLead.pickup_city_id },
+      relations: ['state'],
+    });
+    const dropCity = await this.cityRepository.findOne({
+      where: { id: savedLead.drop_city_id },
+      relations: ['state'],
+    });
     await this.mailService.sendEmail(
       savedLead.email,
       'Welcome Rent a Trolley',
       'This is a test email',
       {
         name: `${savedLead.first_name} ${savedLead.last_name}`,
+        pickup_city_name: pickupCity?.name,
+        drop_city_name: dropCity?.name,
+        pickup_city_state_name: pickupCity?.state?.name,
+        drop_city_state_name: dropCity?.state?.name,
+        pickup_date_time: new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        }).format(new Date(savedLead.pickup_date_time)),
       },
     );
-    return savedLead;
+
+    // Return lead with city names
+    return {
+      ...savedLead,
+      pickup_city_name: pickupCity?.name,
+      drop_city_name: dropCity?.name,
+    };
   }
 
   findAll(): Promise<Lead[]> {

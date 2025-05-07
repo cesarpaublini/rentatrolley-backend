@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { City } from 'src/cities/entities/city.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity('leads')
 export class Lead {
@@ -26,8 +33,16 @@ export class Lead {
   @Column()
   event_date: Date;
 
+  @ManyToOne(() => City)
+  @JoinColumn({ name: 'pickup_city_id' })
+  pickup_city: City;
+
   @Column()
   pickup_city_id: number;
+
+  @ManyToOne(() => City)
+  @JoinColumn({ name: 'drop_city_id' })
+  drop_city: City;
 
   @Column()
   drop_city_id: number;
