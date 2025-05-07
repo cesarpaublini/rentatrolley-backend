@@ -6,12 +6,13 @@ import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MailService } from '../mail/mail.service';
 import { City } from '../cities/entities/city.entity';
-
+import { StripeService } from 'src/stripe/stripe.service';
 @Injectable()
 export class LeadsService {
   constructor(
     @InjectRepository(Lead) private readonly leadRepository: Repository<Lead>,
     private readonly mailService: MailService,
+    private readonly stripeService: StripeService,
     @InjectRepository(City) private readonly cityRepository: Repository<City>,
   ) {}
 
@@ -28,6 +29,9 @@ export class LeadsService {
       where: { id: savedLead.drop_city_id },
       relations: ['state'],
     });
+    const paymentLink = await this.stripeService.createPaymentLink(
+      savedLead.duration_hours,
+    );
     await this.mailService.sendEmail(
       savedLead.email,
       'Welcome Rent a Trolley',
@@ -46,6 +50,7 @@ export class LeadsService {
           minute: 'numeric',
           hour12: true,
         }).format(new Date(savedLead.pickup_date_time)),
+        payment_link: paymentLink,
       },
     );
 
