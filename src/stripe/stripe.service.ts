@@ -16,11 +16,14 @@ export class StripeService {
       apiVersion: '2025-04-30.basil',
     });
   }
-  async createPaymentLink(duration_hours: number): Promise<string> {
+  async createPaymentLink(
+    stripe_price_id: string,
+    duration_hours: number,
+  ): Promise<string> {
     const paymentLink = await this.stripe.paymentLinks.create({
       line_items: [
         {
-          price: 'price_1RMD3nA01KFVlQs9Fd0SMHPk',
+          price: stripe_price_id,
           quantity: duration_hours,
         },
       ],

@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MailService } from '../mail/mail.service';
 import { City } from '../cities/entities/city.entity';
 import { StripeService } from 'src/stripe/stripe.service';
+import { EventType } from 'src/event-types/entities/event-type.entity';
 @Injectable()
 export class LeadsService {
   constructor(
@@ -14,6 +15,8 @@ export class LeadsService {
     private readonly mailService: MailService,
     private readonly stripeService: StripeService,
     @InjectRepository(City) private readonly cityRepository: Repository<City>,
+    @InjectRepository(EventType)
+    private readonly eventTypeRepository: Repository<EventType>,
   ) {}
 
   async create(createLeadDto: CreateLeadDto): Promise<any> {
@@ -29,7 +32,14 @@ export class LeadsService {
       where: { id: savedLead.drop_city_id },
       relations: ['state'],
     });
+    const eventType = await this.eventTypeRepository.findOne({
+      where: { id: savedLead.event_type_id },
+    });
+    if (!eventType) {
+      throw new Error('Event type not found');
+    }
     const paymentLink = await this.stripeService.createPaymentLink(
+      eventType.stripe_price_id,
       savedLead.duration_hours,
     );
     await this.mailService.sendEmail(

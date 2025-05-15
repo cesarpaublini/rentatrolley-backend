@@ -6,8 +6,13 @@ import { Lead } from './entities/lead.entity';
 import { MailModule } from 'src/mail/mail.module';
 import { City } from 'src/cities/entities/city.entity';
 import { StripeModule } from 'src/stripe/stripe.module';
+import { EventType } from 'src/event-types/entities/event-type.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([Lead, City]), MailModule, StripeModule],
+  imports: [
+    TypeOrmModule.forFeature([Lead, City, EventType]),
+    MailModule,
+    StripeModule,
+  ],
   controllers: [LeadsController],
   providers: [LeadsService],
 })
