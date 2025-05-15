@@ -4,15 +4,27 @@ import { UpdateEventTypeDto } from './dto/update-event-type.dto';
 import { EventType } from './entities/event-type.entity';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
+import { StripeService } from 'src/stripe/stripe.service';
 @Injectable()
 export class EventTypesService {
   constructor(
     @InjectRepository(EventType)
     private eventTypeRepository: Repository<EventType>,
+    private readonly stripeService: StripeService,
   ) {}
-  create(createEventTypeDto: CreateEventTypeDto) {
-    return this.eventTypeRepository.save(createEventTypeDto);
+  async create(createEventTypeDto: CreateEventTypeDto) {
+    const eventType = this.eventTypeRepository.create(createEventTypeDto);
+    const productId = await this.stripeService.createProduct(
+      eventType.name,
+      eventType.description,
+    );
+    const priceId = await this.stripeService.createPrice(
+      productId,
+      eventType.price,
+    );
+    eventType.stripe_product_id = productId;
+    eventType.stripe_price_id = priceId;
+    return this.eventTypeRepository.save(eventType);
   }
 
   findAll(): Promise<EventType[]> {

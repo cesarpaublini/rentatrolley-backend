@@ -28,4 +28,21 @@ export class StripeService {
 
     return paymentLink.url;
   }
+
+  async createProduct(name: string, description: string): Promise<string> {
+    const product = await this.stripe.products.create({
+      name,
+      description,
+    });
+    return product.id;
+  }
+
+  async createPrice(productId: string, amount: number): Promise<string> {
+    const price = await this.stripe.prices.create({
+      product: productId,
+      currency: 'usd',
+      unit_amount: amount,
+    });
+    return price.id;
+  }
 }

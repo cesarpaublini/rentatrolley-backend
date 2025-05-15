@@ -9,11 +9,23 @@ export class EventType {
   name: string;
 
   @Column()
+  price: number;
+
+  @Column()
+  description: string;
+
+  @Column()
+  stripe_product_id: string;
+
+  @Column()
+  stripe_price_id: string;
+
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column()
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
-  @Column()
+  @Column({ nullable: true })
   deleted_at: Date;
 }
