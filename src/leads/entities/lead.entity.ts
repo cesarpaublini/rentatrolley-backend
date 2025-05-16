@@ -27,10 +27,10 @@ export class Lead {
   @Column()
   city_id: number;
 
-  @Column()
+  @Column({ nullable: true })
   event_type_id: number;
 
-  @Column()
+  @Column({ nullable: true })
   event_date: Date;
 
   @ManyToOne(() => City)
@@ -47,19 +47,19 @@ export class Lead {
   @Column()
   drop_city_id: number;
 
-  @Column()
+  @Column({ nullable: true })
   pickup_date_time: Date;
 
-  @Column()
+  @Column({ nullable: true })
   duration_hours: number;
 
-  @Column()
+  @Column({ nullable: true })
   trolley_type: string;
 
-  @Column()
+  @Column({ nullable: true })
   return_trip: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   passenger_count: number;
 
   @Column({ nullable: true })

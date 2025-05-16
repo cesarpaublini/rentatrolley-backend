@@ -40,7 +40,6 @@ export class CreateLeadDto {
   city_id: number;
 
   @ApiProperty({ description: 'The event type ID of the lead', example: 2 })
-  @IsNotEmpty()
   @IsNumber()
   event_type_id: number;
 
@@ -48,7 +47,6 @@ export class CreateLeadDto {
     description: 'The event date of the lead',
     example: '2023-12-25T00:00:00.000Z',
   })
-  @IsNotEmpty()
   @IsDateString()
   event_date: Date;
 
@@ -66,17 +64,14 @@ export class CreateLeadDto {
     description: 'The pickup date and time of the lead',
     example: '2023-12-25T10:00:00.000Z',
   })
-  @IsNotEmpty()
   @IsDateString()
   pickup_date_time: Date;
 
   @ApiProperty({ description: 'The duration of the trip in hours', example: 5 })
-  @IsNotEmpty()
   @IsNumber()
   duration_hours: number;
 
   @ApiProperty({ description: 'The type of trolley', example: 'Standard' })
-  @IsNotEmpty()
   @IsString()
   trolley_type: string;
 
@@ -84,12 +79,10 @@ export class CreateLeadDto {
     description: 'Whether the trip is a return trip',
     example: true,
   })
-  @IsNotEmpty()
   @IsBoolean()
   return_trip: boolean;
 
   @ApiProperty({ description: 'The number of passengers', example: 4 })
-  @IsNotEmpty()
   @IsNumber()
   passenger_count: number;
 
@@ -97,7 +90,6 @@ export class CreateLeadDto {
     description: 'Any special requirements for the trip',
     example: 'None',
   })
-  @IsNotEmpty()
   @IsString()
   special_requirements: string;
 }
