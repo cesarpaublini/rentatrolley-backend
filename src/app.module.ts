@@ -13,6 +13,9 @@ import { MailModule } from './mail/mail.module';
 import { StripeModule } from './stripe/stripe.module';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ContactService } from './contact/contact.service';
+import { ContactModule } from './contact/contact.module';
+import { CustomersModule } from './customers/customers.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -44,6 +47,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
         limit: 10,
       },
     ]),
+    ContactModule,
+    CustomersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
