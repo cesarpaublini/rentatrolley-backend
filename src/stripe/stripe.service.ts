@@ -19,6 +19,7 @@ export class StripeService {
   async createPaymentLink(
     stripe_price_id: string,
     duration_hours: number,
+    uuid: string,
   ): Promise<string> {
     const paymentLink = await this.stripe.paymentLinks.create({
       line_items: [
@@ -27,6 +28,10 @@ export class StripeService {
           quantity: duration_hours,
         },
       ],
+      customer_creation: 'always',
+      metadata: {
+        uuid,
+      },
     });
 
     return paymentLink.url;
