@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
 import { Lead } from './entities/lead.entity';
@@ -8,11 +8,13 @@ import { MailService } from '../mail/mail.service';
 import { City } from '../cities/entities/city.entity';
 import { StripeService } from 'src/stripe/stripe.service';
 import { EventType } from 'src/event-types/entities/event-type.entity';
+import { MailTemplates, MailSubjects } from 'src/utils/mail-templates';
 @Injectable()
 export class LeadsService {
   constructor(
     @InjectRepository(Lead) private readonly leadRepository: Repository<Lead>,
     private readonly mailService: MailService,
+    @Inject(forwardRef(() => StripeService))
     private readonly stripeService: StripeService,
     @InjectRepository(City) private readonly cityRepository: Repository<City>,
     @InjectRepository(EventType)
@@ -41,11 +43,13 @@ export class LeadsService {
     const paymentLink = await this.stripeService.createPaymentLink(
       eventType.stripe_price_id,
       savedLead.duration_hours,
+      savedLead.uuid,
     );
     await this.mailService.sendEmail(
       savedLead.email,
-      'Welcome Rent a Trolley',
+      MailSubjects.WELCOME,
       'This is a test email',
+      MailTemplates.WELCOME,
       {
         name: `${savedLead.first_name} ${savedLead.last_name}`,
         pickup_city_name: pickupCity?.name,
@@ -79,7 +83,9 @@ export class LeadsService {
   findOne(id: number): Promise<Lead | null> {
     return this.leadRepository.findOneBy({ id });
   }
-
+  async findByColumn(column: string, value: string): Promise<Lead | null> {
+    return this.leadRepository.findOneBy({ [column]: value });
+  }
   update(id: number, updateLeadDto: UpdateLeadDto): Promise<UpdateResult> {
     return this.leadRepository.update(id, updateLeadDto);
   }

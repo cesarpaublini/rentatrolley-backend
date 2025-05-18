@@ -65,6 +65,9 @@ export class Lead {
   @Column({ nullable: true })
   special_requirements: string;
 
+  @Column({ default: () => 'gen_random_uuid()' })
+  uuid: string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
