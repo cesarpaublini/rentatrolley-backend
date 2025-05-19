@@ -5,6 +5,10 @@ import Stripe from 'stripe';
 import { LeadsService } from 'src/leads/leads.service';
 import { CustomersService } from 'src/customers/customers.service';
 import { forwardRef, Inject } from '@nestjs/common';
+import { MailService } from 'src/mail/mail.service';
+import { MailTemplates, MailSubjects } from 'src/utils/mail-templates';
+import { EventTypesService } from 'src/event-types/event-types.service';
+
 @Controller('stripe-webhook')
 export class StripeWebhookController {
   private stripe: Stripe;
@@ -13,6 +17,8 @@ export class StripeWebhookController {
     @Inject(forwardRef(() => LeadsService))
     private readonly leadService: LeadsService,
     private readonly customerService: CustomersService,
+    private readonly mailService: MailService,
+    private readonly eventTypeService: EventTypesService,
   ) {
     const stripeSecretKey = this.configService.get<string>('STRIPE_SECRET_KEY');
     if (!stripeSecretKey) {
@@ -40,6 +46,11 @@ export class StripeWebhookController {
           if (!lead) {
             throw new Error('Lead not found');
           }
+
+          // Get event type
+          const eventType = await this.eventTypeService.findOne(
+            lead.event_type_id,
+          );
           // Transform lead to customer
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const customer = await this.customerService.create({
@@ -49,6 +60,28 @@ export class StripeWebhookController {
             phone_number: lead.phone_number,
             lead_id: lead.id,
           });
+          // Send email notification to the customer
+          await this.mailService.sendEmail(
+            lead.email,
+            MailSubjects.PURCHASE,
+            'Purchase Confirmation',
+            MailTemplates.PURCHASE,
+            {
+              customer_name: `${lead.first_name} ${lead.last_name}`,
+              hours_reserved: lead.duration_hours,
+              total_price: checkoutSession.amount_total,
+              service_name: eventType?.name,
+              start_date: new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              }).format(new Date(lead.pickup_date_time)),
+              year: new Date().getFullYear(),
+            },
+          );
         }
 
         console.log('Checkout session was successful!');
