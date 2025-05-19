@@ -8,5 +8,6 @@ import { StripeService } from 'src/stripe/stripe.service';
   imports: [TypeOrmModule.forFeature([EventType])],
   controllers: [EventTypesController],
   providers: [EventTypesService, StripeService],
+  exports: [EventTypesService],
 })
 export class EventTypesModule {}
