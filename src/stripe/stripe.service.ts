@@ -16,6 +16,13 @@ export class StripeService {
       apiVersion: '2025-04-30.basil',
     });
   }
+  /**
+   * Create a one-time payment link for a product
+   * @param stripe_price_id - The ID of the Stripe price to be purchased
+   * @param duration_hours - The duration of the service in hours
+   * @param uuid - The UUID of the user
+   * @returns The URL of the payment link
+   */
   async createPaymentLink(
     stripe_price_id: string,
     duration_hours: number,
@@ -32,11 +39,22 @@ export class StripeService {
       metadata: {
         uuid,
       },
+      restrictions: {
+        completed_sessions: {
+          limit: 1,
+        },
+      },
     });
 
     return paymentLink.url;
   }
 
+  /**
+   * Create a product in Stripe
+   * @param name - The name of the product
+   * @param description - The description of the product
+   * @returns The ID of the product
+   */
   async createProduct(name: string, description: string): Promise<string> {
     const product = await this.stripe.products.create({
       name,
@@ -45,6 +63,12 @@ export class StripeService {
     return product.id;
   }
 
+  /**
+   * Create a price for a product in Stripe
+   * @param productId - The ID of the product
+   * @param amount - The amount of the price
+   * @returns The ID of the price
+   */
   async createPrice(productId: string, amount: number): Promise<string> {
     const price = await this.stripe.prices.create({
       product: productId,
