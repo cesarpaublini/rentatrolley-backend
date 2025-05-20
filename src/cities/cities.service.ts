@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { City } from './entities/city.entity';
@@ -11,7 +11,13 @@ export class CitiesService {
     @InjectRepository(City)
     private cityRepository: Repository<City>,
   ) {}
-  create(createCityDto: CreateCityDto) {
+  async create(createCityDto: CreateCityDto) {
+    const stateExists = await this.cityRepository.manager.findOne('states', {
+      where: { id: createCityDto.state_id },
+    });
+    if (!stateExists) {
+      throw new Error('State does not exist');
+    }
     return this.cityRepository.save(createCityDto);
   }
 
@@ -31,11 +37,22 @@ export class CitiesService {
     });
   }
 
-  findOne(id: number): Promise<City | null> {
-    return this.cityRepository.findOneBy({ id });
+  async findOne(id: number): Promise<City | null> {
+    const city = await this.cityRepository.findOneBy({ id });
+    if (!city) {
+      throw new NotFoundException(`City with ID ${id} not found`);
+    }
+    return city;
   }
 
-  update(id: number, updateCityDto: UpdateCityDto): Promise<UpdateResult> {
+  async update(
+    id: number,
+    updateCityDto: UpdateCityDto,
+  ): Promise<UpdateResult> {
+    const city = await this.cityRepository.findOneBy({ id });
+    if (!city) {
+      throw new NotFoundException(`City with ID ${id} not found`);
+    }
     return this.cityRepository.update(id, updateCityDto);
   }
 

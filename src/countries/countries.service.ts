@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCountryDto } from './dto/create-country.dto';
 import { UpdateCountryDto } from './dto/update-country.dto';
 import { Repository, UpdateResult } from 'typeorm';
@@ -12,7 +16,13 @@ export class CountriesService {
     private countryRepository: Repository<Country>,
   ) {}
 
-  create(createCountryDto: CreateCountryDto): Promise<Country> {
+  async create(createCountryDto: CreateCountryDto): Promise<Country> {
+    const country = await this.countryRepository.findOneBy({
+      name: createCountryDto.name,
+    });
+    if (country) {
+      throw new ConflictException('Country already exists');
+    }
     return this.countryRepository.save(createCountryDto);
   }
 
@@ -20,14 +30,22 @@ export class CountriesService {
     return this.countryRepository.find();
   }
 
-  findOne(id: number): Promise<Country | null> {
-    return this.countryRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Country | null> {
+    const country = await this.countryRepository.findOneBy({ id });
+    if (!country) {
+      throw new NotFoundException(`Country with ID ${id} not found`);
+    }
+    return country;
   }
 
-  update(
+  async update(
     id: number,
     updateCountryDto: UpdateCountryDto,
   ): Promise<UpdateResult> {
+    const country = await this.countryRepository.findOneBy({ id });
+    if (!country) {
+      throw new NotFoundException(`Country with ID ${id} not found`);
+    }
     return this.countryRepository.update(id, updateCountryDto);
   }
 

@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateStateDto } from './dto/create-state.dto';
 import { UpdateStateDto } from './dto/update-state.dto';
 import { State } from './entities/state.entity';
@@ -12,19 +17,46 @@ export class StatesService {
     private stateRepository: Repository<State>,
   ) {}
 
-  create(createStateDto: CreateStateDto) {
-    return this.stateRepository.save(createStateDto);
+  async create(createStateDto: CreateStateDto) {
+    const stateExists = await this.stateRepository.manager.findOne('states', {
+      where: { name: createStateDto.name },
+    });
+    if (stateExists) {
+      throw new ConflictException('State already exists');
+    }
+
+    try {
+      return await this.stateRepository.save(createStateDto);
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.detail) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        throw new ConflictException(error.detail);
+      }
+      throw new InternalServerErrorException('An unexpected error occurred');
+    }
   }
 
   findAll(): Promise<State[]> {
     return this.stateRepository.find();
   }
 
-  findOne(id: number): Promise<State | null> {
-    return this.stateRepository.findOneBy({ id });
+  async findOne(id: number): Promise<State | null> {
+    const state = await this.stateRepository.findOneBy({ id });
+    if (!state) {
+      throw new NotFoundException(`State with ID ${id} not found`);
+    }
+    return state;
   }
 
-  update(id: number, updateStateDto: UpdateStateDto): Promise<UpdateResult> {
+  async update(
+    id: number,
+    updateStateDto: UpdateStateDto,
+  ): Promise<UpdateResult> {
+    const state = await this.stateRepository.findOneBy({ id });
+    if (!state) {
+      throw new NotFoundException(`State with ID ${id} not found`);
+    }
     return this.stateRepository.update(id, updateStateDto);
   }
 
