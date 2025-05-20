@@ -22,24 +22,27 @@ export class LeadsService {
   ) {}
 
   async create(createLeadDto: CreateLeadDto): Promise<any> {
-    const lead = this.leadRepository.create(createLeadDto);
-    const savedLead = await this.leadRepository.save(lead);
-
-    // Fetch city names
-    const pickupCity = await this.cityRepository.findOne({
-      where: { id: savedLead.pickup_city_id },
-      relations: ['state'],
-    });
-    const dropCity = await this.cityRepository.findOne({
-      where: { id: savedLead.drop_city_id },
-      relations: ['state'],
-    });
+    // Check for FKs
     const eventType = await this.eventTypeRepository.findOne({
-      where: { id: savedLead.event_type_id },
+      where: { id: createLeadDto.event_type_id },
     });
     if (!eventType) {
       throw new Error('Event type not found');
     }
+    const pickupCity = await this.cityRepository.findOne({
+      where: { id: createLeadDto.pickup_city_id },
+      relations: ['state'],
+    });
+    const dropCity = await this.cityRepository.findOne({
+      where: { id: createLeadDto.drop_city_id },
+      relations: ['state'],
+    });
+    if (!pickupCity || !dropCity) {
+      throw new Error('City not found');
+    }
+    const lead = this.leadRepository.create(createLeadDto);
+    const savedLead = await this.leadRepository.save(lead);
+
     const paymentLink = await this.stripeService.createPaymentLink(
       eventType.stripe_price_id,
       savedLead.duration_hours,
