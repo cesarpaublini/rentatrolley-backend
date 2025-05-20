@@ -49,7 +49,11 @@ export class CountriesService {
     return this.countryRepository.update(id, updateCountryDto);
   }
 
-  remove(id: number): Promise<UpdateResult> {
-    return this.countryRepository.update(id, { deleted_at: new Date() });
+  async remove(id: number): Promise<UpdateResult> {
+    const country = await this.findOne(id);
+    if (!country) {
+      throw new NotFoundException(`Country with ID ${id} not found`);
+    }
+    return this.countryRepository.softDelete(id);
   }
 }

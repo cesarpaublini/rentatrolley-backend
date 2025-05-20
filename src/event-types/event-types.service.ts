@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventTypeDto } from './dto/create-event-type.dto';
 import { UpdateEventTypeDto } from './dto/update-event-type.dto';
 import { EventType } from './entities/event-type.entity';
@@ -31,18 +31,30 @@ export class EventTypesService {
     return this.eventTypeRepository.find();
   }
 
-  findOne(id: number): Promise<EventType | null> {
-    return this.eventTypeRepository.findOneBy({ id });
+  async findOne(id: number): Promise<EventType | null> {
+    const eventType = await this.eventTypeRepository.findOneBy({ id });
+    if (!eventType) {
+      throw new NotFoundException('Event type not found');
+    }
+    return eventType;
   }
 
-  update(
+  async update(
     id: number,
     updateEventTypeDto: UpdateEventTypeDto,
   ): Promise<UpdateResult> {
+    const eventType = await this.findOne(id);
+    if (!eventType) {
+      throw new NotFoundException('Event type not found');
+    }
     return this.eventTypeRepository.update(id, updateEventTypeDto);
   }
 
-  remove(id: number): Promise<DeleteResult> {
-    return this.eventTypeRepository.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    const eventType = await this.findOne(id);
+    if (!eventType) {
+      throw new NotFoundException('Event type not found');
+    }
+    return this.eventTypeRepository.softDelete(id);
   }
 }

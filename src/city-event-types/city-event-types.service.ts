@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { CreateCityEventTypeDto } from './dto/create-city-event-type.dto';
 import { UpdateCityEventTypeDto } from './dto/update-city-event-type.dto';
 import { CityEventType } from './entities/city-event-type.entity';
@@ -11,26 +15,44 @@ export class CityEventTypesService {
     private cityEventTypeRepository: Repository<CityEventType>,
   ) {}
 
-  create(createCityEventTypeDto: CreateCityEventTypeDto) {
+  async create(createCityEventTypeDto: CreateCityEventTypeDto) {
+    const cityEventType = await this.cityEventTypeRepository.findOneBy({
+      city_id: createCityEventTypeDto.city_id,
+      event_type_id: createCityEventTypeDto.event_type_id,
+    });
+    if (cityEventType) {
+      throw new ConflictException('City event type already exists');
+    }
     return this.cityEventTypeRepository.save(createCityEventTypeDto);
   }
-
   findAll(): Promise<CityEventType[]> {
     return this.cityEventTypeRepository.find();
   }
 
-  findOne(id: number): Promise<CityEventType | null> {
-    return this.cityEventTypeRepository.findOneBy({ id });
+  async findOne(id: number): Promise<CityEventType | null> {
+    const cityEventType = await this.cityEventTypeRepository.findOneBy({ id });
+    if (!cityEventType) {
+      throw new NotFoundException(`City event type with ID ${id} not found`);
+    }
+    return cityEventType;
   }
 
-  update(
+  async update(
     id: number,
     updateCityEventTypeDto: UpdateCityEventTypeDto,
   ): Promise<UpdateResult> {
+    const cityEventType = await this.findOne(id);
+    if (!cityEventType) {
+      throw new NotFoundException(`City event type with ID ${id} not found`);
+    }
     return this.cityEventTypeRepository.update(id, updateCityEventTypeDto);
   }
 
-  remove(id: number): Promise<DeleteResult> {
-    return this.cityEventTypeRepository.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    const cityEventType = await this.findOne(id);
+    if (!cityEventType) {
+      throw new NotFoundException(`City event type with ID ${id} not found`);
+    }
+    return this.cityEventTypeRepository.softDelete(id);
   }
 }

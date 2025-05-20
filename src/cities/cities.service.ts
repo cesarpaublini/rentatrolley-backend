@@ -16,7 +16,7 @@ export class CitiesService {
       where: { id: createCityDto.state_id },
     });
     if (!stateExists) {
-      throw new Error('State does not exist');
+      throw new NotFoundException('State does not exist');
     }
     return this.cityRepository.save(createCityDto);
   }
@@ -49,14 +49,18 @@ export class CitiesService {
     id: number,
     updateCityDto: UpdateCityDto,
   ): Promise<UpdateResult> {
-    const city = await this.cityRepository.findOneBy({ id });
+    const city = await this.findOne(id);
     if (!city) {
       throw new NotFoundException(`City with ID ${id} not found`);
     }
     return this.cityRepository.update(id, updateCityDto);
   }
 
-  remove(id: number): Promise<DeleteResult> {
-    return this.cityRepository.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    const city = await this.findOne(id);
+    if (!city) {
+      throw new NotFoundException(`City with ID ${id} not found`);
+    }
+    return this.cityRepository.softDelete(id);
   }
 }
