@@ -19,6 +19,9 @@ export class City {
   state: State;
 
   @Column()
+  slug: string;
+
+  @Column()
   state_id: number;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
