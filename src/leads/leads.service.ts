@@ -1,8 +1,14 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
 import { Lead } from './entities/lead.entity';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MailService } from '../mail/mail.service';
 import { City } from '../cities/entities/city.entity';
@@ -27,7 +33,7 @@ export class LeadsService {
       where: { id: createLeadDto.event_type_id },
     });
     if (!eventType) {
-      throw new Error('Event type not found');
+      throw new NotFoundException('Event type not found');
     }
     const pickupCity = await this.cityRepository.findOne({
       where: { id: createLeadDto.pickup_city_id },
@@ -38,10 +44,10 @@ export class LeadsService {
       relations: ['state'],
     });
     if (!pickupCity || !dropCity) {
-      throw new Error('City not found');
+      throw new NotFoundException('City not found');
     }
     if (!createLeadDto.duration_hours || createLeadDto.duration_hours < 1) {
-      throw new Error('Duration must be at least 1 hour');
+      throw new BadRequestException('Duration must be at least 1 hour');
     }
     const lead = this.leadRepository.create(createLeadDto);
     const savedLead = await this.leadRepository.save(lead);
@@ -86,17 +92,32 @@ export class LeadsService {
     return this.leadRepository.find();
   }
 
-  findOne(id: number): Promise<Lead | null> {
-    return this.leadRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Lead | null> {
+    const lead = await this.leadRepository.findOneBy({ id });
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+    return lead;
   }
   async findByColumn(column: string, value: string): Promise<Lead | null> {
     return this.leadRepository.findOneBy({ [column]: value });
   }
-  update(id: number, updateLeadDto: UpdateLeadDto): Promise<UpdateResult> {
+  async update(
+    id: number,
+    updateLeadDto: UpdateLeadDto,
+  ): Promise<UpdateResult> {
+    const lead = await this.findOne(id);
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
     return this.leadRepository.update(id, updateLeadDto);
   }
 
-  remove(id: number): Promise<UpdateResult> {
-    return this.leadRepository.update(id, { deleted_at: new Date() });
+  async remove(id: number): Promise<DeleteResult> {
+    const lead = await this.findOne(id);
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+    return this.leadRepository.softDelete(id);
   }
 }
