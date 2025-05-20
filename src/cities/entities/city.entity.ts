@@ -4,6 +4,9 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { State } from '../../states/entities/state.entity';
 @Entity('cities')
@@ -24,12 +27,12 @@ export class City {
   @Column()
   state_id: number;
 
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column({ nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @Column({ nullable: true })
+  @DeleteDateColumn()
   deleted_at: Date;
 }

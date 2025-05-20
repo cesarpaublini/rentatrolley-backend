@@ -5,6 +5,9 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity('leads')
@@ -68,12 +71,12 @@ export class Lead {
   @Column({ default: () => 'gen_random_uuid()' })
   uuid: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @DeleteDateColumn()
   deleted_at: Date;
 }
