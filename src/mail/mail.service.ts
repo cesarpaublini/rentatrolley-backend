@@ -12,6 +12,9 @@ export class MailService {
     text: string,
     template: MailTemplates,
     context: ISendMailOptions['context'],
+    attachments?: ISendMailOptions['attachments'],
+    bcc?: string[],
+    replyTo?: string,
   ) {
     await this.mailerService.sendMail({
       to,
@@ -19,6 +22,9 @@ export class MailService {
       text,
       template,
       context,
+      attachments,
+      bcc,
+      replyTo,
     });
   }
 }
