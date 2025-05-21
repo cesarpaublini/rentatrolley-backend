@@ -17,4 +17,12 @@ export class CreateCityDto {
   @IsNotEmpty()
   @IsNumber()
   state_id: number;
+
+  @ApiProperty({
+    description: 'The slug of the city',
+    example: 'new-york',
+  })
+  @IsNotEmpty()
+  @IsString()
+  slug: string;
 }
