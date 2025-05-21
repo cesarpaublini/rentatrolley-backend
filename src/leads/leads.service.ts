@@ -47,8 +47,11 @@ export class LeadsService {
     if (!pickupCity || !dropCity) {
       throw new NotFoundException('City not found');
     }
-    if (!createLeadDto.duration_hours || createLeadDto.duration_hours < 1) {
-      throw new BadRequestException('Duration must be at least 1 hour');
+    if (!createLeadDto.duration_hours || createLeadDto.duration_hours < 5) {
+      throw new BadRequestException('Duration must be at least 5 hours');
+    }
+    if (createLeadDto.duration_hours > 10) {
+      throw new BadRequestException('Duration must be less than 10 hours');
     }
     const lead = this.leadRepository.create(createLeadDto);
     const savedLead = await this.leadRepository.save(lead);
