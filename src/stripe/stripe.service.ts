@@ -20,24 +20,33 @@ export class StripeService {
    * Create a one-time payment link for a product
    * @param stripe_price_id - The ID of the Stripe price to be purchased
    * @param duration_hours - The duration of the service in hours
+   * @param trolley_amount - The amount of trolleys to be rented
    * @param uuid - The UUID of the user
    * @returns The URL of the payment link
    */
   async createPaymentLink(
     stripe_price_id: string,
     duration_hours: number,
+    trolley_amount: number,
     uuid: string,
   ): Promise<string> {
     const paymentLink = await this.stripe.paymentLinks.create({
       line_items: [
         {
           price: stripe_price_id,
-          quantity: duration_hours,
+          quantity: duration_hours * trolley_amount,
         },
       ],
+      custom_text: {
+        submit: {
+          message: `This payment is for ${duration_hours} hours of service for ${trolley_amount} trolleys.`,
+        },
+      },
       customer_creation: 'always',
       metadata: {
         uuid,
+        duration_hours,
+        trolley_amount,
       },
       restrictions: {
         completed_sessions: {
