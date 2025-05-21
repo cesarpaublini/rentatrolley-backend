@@ -7,16 +7,15 @@ import {
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-export class CreateLeadDto {
-  @ApiProperty({ description: 'The first name of the lead', example: 'John' })
-  @IsNotEmpty()
-  @IsString()
-  first_name: string;
 
-  @ApiProperty({ description: 'The last name of the lead', example: 'Doe' })
+export class CreateLeadDto {
+  @ApiProperty({
+    description: 'The full name of the lead',
+    example: 'John Doe',
+  })
   @IsNotEmpty()
   @IsString()
-  last_name: string;
+  full_name: string;
 
   @ApiProperty({
     description: 'The email of the lead',
@@ -92,4 +91,11 @@ export class CreateLeadDto {
   })
   @IsString()
   special_requirements: string;
+
+  @ApiProperty({
+    description: 'The amount of trolleys to be rented',
+    example: 1,
+  })
+  @IsNumber()
+  trolley_amount: number;
 }

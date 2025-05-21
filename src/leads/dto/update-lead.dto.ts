@@ -4,18 +4,11 @@ import { CreateLeadDto } from './create-lead.dto';
 
 export class UpdateLeadDto extends PartialType(CreateLeadDto) {
   @ApiProperty({
-    description: 'The first name of the lead',
-    example: 'John',
+    description: 'The full name of the lead',
+    example: 'John Doe',
     required: false,
   })
-  first_name?: string;
-
-  @ApiProperty({
-    description: 'The last name of the lead',
-    example: 'Doe',
-    required: false,
-  })
-  last_name?: string;
+  full_name?: string;
 
   @ApiProperty({
     description: 'The email of the lead',

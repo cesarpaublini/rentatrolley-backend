@@ -68,6 +68,9 @@ export class Lead {
   @Column({ nullable: true })
   special_requirements: string;
 
+  @Column({ nullable: true })
+  trolley_amount: number;
+
   @Column({ default: () => 'gen_random_uuid()' })
   uuid: string;
 
