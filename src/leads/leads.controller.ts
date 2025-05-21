@@ -19,7 +19,13 @@ export class LeadsController {
   @ApiOperation({ summary: 'Create a new lead' })
   @ApiTags('Leads')
   create(@Body() createLeadDto: CreateLeadDto) {
-    return this.leadsService.create(createLeadDto);
+    const [firstName, lastName] = createLeadDto.full_name.split(' ');
+    const lead = {
+      ...createLeadDto,
+      first_name: firstName,
+      last_name: lastName,
+    };
+    return this.leadsService.create(lead);
   }
 
   @Get()
