@@ -65,6 +65,7 @@ export class LeadsService {
     const paymentLink = await this.stripeService.createPaymentLink(
       eventType.stripe_price_id,
       savedLead.duration_hours,
+      savedLead.trolley_amount,
       savedLead.uuid,
     );
     await this.mailService.sendEmail(
