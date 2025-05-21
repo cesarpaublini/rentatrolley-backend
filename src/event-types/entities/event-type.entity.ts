@@ -15,7 +15,7 @@ export class EventType {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ default: 2900 })
   price: number;
 
   @Column()

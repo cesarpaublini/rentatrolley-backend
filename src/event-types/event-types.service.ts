@@ -18,10 +18,7 @@ export class EventTypesService {
       eventType.name,
       eventType.description,
     );
-    const priceId = await this.stripeService.createPrice(
-      productId,
-      eventType.price,
-    );
+    const priceId = await this.stripeService.createPrice(productId, 2900);
     eventType.stripe_product_id = productId;
     eventType.stripe_price_id = priceId;
     return this.eventTypeRepository.save(eventType);
