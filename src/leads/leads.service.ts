@@ -15,6 +15,7 @@ import { City } from '../cities/entities/city.entity';
 import { StripeService } from 'src/stripe/stripe.service';
 import { EventType } from 'src/event-types/entities/event-type.entity';
 import { MailTemplates, MailSubjects } from 'src/utils/mail-templates';
+import * as path from 'path';
 @Injectable()
 export class LeadsService {
   constructor(
@@ -51,7 +52,13 @@ export class LeadsService {
     }
     const lead = this.leadRepository.create(createLeadDto);
     const savedLead = await this.leadRepository.save(lead);
-
+    const imagePath = path.resolve(
+      process.cwd(),
+      'src',
+      'static',
+      'images',
+      'RentATrolley_Icon_White_Red.png',
+    );
     const paymentLink = await this.stripeService.createPaymentLink(
       eventType.stripe_price_id,
       savedLead.duration_hours,
@@ -78,6 +85,13 @@ export class LeadsService {
         }).format(new Date(savedLead.pickup_date_time)),
         payment_link: paymentLink,
       },
+      [
+        {
+          filename: 'RentATrolley_Icon_Black_Red.png',
+          path: imagePath,
+          cid: 'logo@cid',
+        },
+      ],
     );
 
     // Return lead with city names
