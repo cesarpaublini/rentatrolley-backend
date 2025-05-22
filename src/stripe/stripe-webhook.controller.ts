@@ -6,7 +6,7 @@ import { LeadsService } from 'src/leads/leads.service';
 import { CustomersService } from 'src/customers/customers.service';
 import { forwardRef, Inject } from '@nestjs/common';
 import { MailService } from 'src/mail/mail.service';
-import { MailTemplates, MailSubjects } from 'src/utils/mail-templates';
+import { MailTemplates, MailSubjects, MailTexts } from 'src/utils/mail-templates';
 import { EventTypesService } from 'src/event-types/event-types.service';
 
 @Controller('stripe-webhook')
@@ -64,7 +64,7 @@ export class StripeWebhookController {
           await this.mailService.sendEmail(
             lead.email,
             MailSubjects.PURCHASE,
-            'Purchase Confirmation',
+            MailTexts.PURCHASE,
             MailTemplates.PURCHASE,
             {
               customer_name: `${lead.first_name} ${lead.last_name}`,
@@ -78,7 +78,7 @@ export class StripeWebhookController {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true,
-              }).format(new Date(lead.pickup_date_time)),
+              }).format(new Date(lead.pickup_date)),
               year: new Date().getFullYear(),
             },
           );
