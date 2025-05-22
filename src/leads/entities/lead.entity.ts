@@ -27,8 +27,15 @@ export class Lead {
   @Column()
   phone_number: string;
 
-  @Column()
-  city_id: number;
+  @ManyToOne(() => City)
+  @JoinColumn({ name: 'event_city_id' })
+  event_city: City;
+
+  @Column({ nullable: true })
+  event_city_id: number;
+
+  @Column({ nullable: true })
+  vehicle_type: string;
 
   @Column({ nullable: true })
   event_type_id: number;
@@ -36,22 +43,17 @@ export class Lead {
   @Column({ nullable: true })
   event_date: Date;
 
-  @ManyToOne(() => City)
-  @JoinColumn({ name: 'pickup_city_id' })
-  pickup_city: City;
-
-  @Column()
-  pickup_city_id: number;
-
-  @ManyToOne(() => City)
-  @JoinColumn({ name: 'drop_city_id' })
-  drop_city: City;
-
-  @Column()
-  drop_city_id: number;
+  @Column({ nullable: true })
+  pickup_location: string;
 
   @Column({ nullable: true })
-  pickup_date_time: Date;
+  drop_location: string;
+
+  @Column({ nullable: true })
+  pickup_date: Date;
+
+  @Column({ nullable: true })
+  pickup_time: string;
 
   @Column({ nullable: true })
   duration_hours: number;

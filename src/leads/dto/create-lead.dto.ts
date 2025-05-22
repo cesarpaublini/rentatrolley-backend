@@ -1,5 +1,4 @@
 import {
-  IsBoolean,
   IsDateString,
   IsEmail,
   IsNotEmpty,
@@ -18,8 +17,71 @@ export class CreateLeadDto {
   full_name: string;
 
   @ApiProperty({
+    description: 'The event type ID of the lead',
+    example: 3,
+  })
+  @IsNumber()
+  event_type_id: number;
+
+  @ApiProperty({
+    description: 'The type of vehicle',
+    example: 'green_trolley',
+  })
+  @IsString()
+  vehicle_type: string;
+
+  @ApiProperty({
+    description: 'The event city ID',
+    example: 14,
+  })
+  @IsNumber()
+  event_city_id: number;
+
+  @ApiProperty({
+    description: 'The pickup location',
+    example: 'somewhere in the city',
+  })
+  @IsString()
+  pickup_location: string;
+
+  @ApiProperty({
+    description: 'The drop location',
+    example: 'another place in the city',
+  })
+  @IsString()
+  drop_location: string;
+
+  @ApiProperty({
+    description: 'The pickup date',
+    example: '2025-05-21T00:00:00.000Z',
+  })
+  @IsDateString()
+  pickup_date: Date;
+
+  @ApiProperty({
+    description: 'The pickup time',
+    example: '20:33',
+  })
+  @IsString()
+  pickup_time: string;
+
+  @ApiProperty({
+    description: 'The duration of the trip in hours',
+    example: 7,
+  })
+  @IsNumber()
+  duration_hours: number;
+
+  @ApiProperty({
+    description: 'The number of passengers',
+    example: 4,
+  })
+  @IsNumber()
+  passenger_count: number;
+
+  @ApiProperty({
     description: 'The email of the lead',
-    example: 'john.doe@example.com',
+    example: 'example@example.com',
   })
   @IsNotEmpty()
   @IsEmail()
@@ -32,58 +94,6 @@ export class CreateLeadDto {
   @IsNotEmpty()
   @IsString()
   phone_number: string;
-
-  @ApiProperty({ description: 'The city ID of the lead', example: 1 })
-  @IsNotEmpty()
-  @IsNumber()
-  city_id: number;
-
-  @ApiProperty({ description: 'The event type ID of the lead', example: 2 })
-  @IsNumber()
-  event_type_id: number;
-
-  @ApiProperty({
-    description: 'The event date of the lead',
-    example: '2023-12-25T00:00:00.000Z',
-  })
-  @IsDateString()
-  event_date: Date;
-
-  @ApiProperty({ description: 'The pickup city ID of the lead', example: 3 })
-  @IsNotEmpty()
-  @IsNumber()
-  pickup_city_id: number;
-
-  @ApiProperty({ description: 'The drop city ID of the lead', example: 4 })
-  @IsNotEmpty()
-  @IsNumber()
-  drop_city_id: number;
-
-  @ApiProperty({
-    description: 'The pickup date and time of the lead',
-    example: '2023-12-25T10:00:00.000Z',
-  })
-  @IsDateString()
-  pickup_date_time: Date;
-
-  @ApiProperty({ description: 'The duration of the trip in hours', example: 5 })
-  @IsNumber()
-  duration_hours: number;
-
-  @ApiProperty({ description: 'The type of trolley', example: 'Standard' })
-  @IsString()
-  trolley_type: string;
-
-  @ApiProperty({
-    description: 'Whether the trip is a return trip',
-    example: true,
-  })
-  @IsBoolean()
-  return_trip: boolean;
-
-  @ApiProperty({ description: 'The number of passengers', example: 4 })
-  @IsNumber()
-  passenger_count: number;
 
   @ApiProperty({
     description: 'Any special requirements for the trip',
