@@ -1,7 +1,11 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { MailService } from 'src/mail/mail.service';
-import { MailTemplates, MailSubjects } from 'src/utils/mail-templates';
+import {
+  MailTemplates,
+  MailSubjects,
+  MailTexts,
+} from 'src/utils/mail-templates';
 import * as path from 'path';
 @Controller('contact')
 export class ContactController {
@@ -19,7 +23,7 @@ export class ContactController {
     return this.mailService.sendEmail(
       'hello@rentatrolley.com',
       MailSubjects.CONTACT_US,
-      'Contact Form Submission',
+      MailTexts.CONTACT_US,
       MailTemplates.CONTACT_US,
       {
         full_name: createContactDto.full_name,

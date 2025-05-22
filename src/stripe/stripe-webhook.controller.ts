@@ -6,7 +6,11 @@ import { LeadsService } from 'src/leads/leads.service';
 import { CustomersService } from 'src/customers/customers.service';
 import { forwardRef, Inject } from '@nestjs/common';
 import { MailService } from 'src/mail/mail.service';
-import { MailTemplates, MailSubjects, MailTexts } from 'src/utils/mail-templates';
+import {
+  MailTemplates,
+  MailSubjects,
+  MailTexts,
+} from 'src/utils/mail-templates';
 import { EventTypesService } from 'src/event-types/event-types.service';
 
 @Controller('stripe-webhook')
