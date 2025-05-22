@@ -9,3 +9,9 @@ export enum MailSubjects {
   CONTACT_US = 'Contact Us',
   PURCHASE = 'Purchase Confirmation',
 }
+
+export enum MailTexts {
+  WELCOME = 'Welcome to Rent a Trolley',
+  CONTACT_US = 'Contact Us',
+  PURCHASE = 'Purchase Confirmation',
+}
