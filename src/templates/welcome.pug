@@ -95,17 +95,16 @@ center.container
         img(
           src='cid:logo@cid'
           alt='Rent a Trolley Logo'
-          width='120'
-          height='120'
-          style='width:120px; height:120px; display:block; margin: 0 auto;'
+          height='80'
+          style='height:80px; display:block; margin: 0 auto;'
 )
         h1 Trip Details
         p
-          | Pick Up Location: #{ pickup_city_name }, #{ pickup_city_state_name }
+          | Pick Up Location: #{ pickup_location }
           br
-          |             Destination: #{ drop_city_name }, #{ drop_city_state_name }
+          |             Destination: #{ drop_location }
           br
-          |             Date: #{ pickup_date_time }
+          |             Date: #{ pickup_date } at #{ pickup_time }
     tr
       td.section
         p.highlight
@@ -113,34 +112,44 @@ center.container
         p.metrics &#x2714; 13 Years in Business &nbsp; &#x2714; 3,500+ 5-Star Reviews &nbsp; &#x2714; 1,000,000+ Riders
     tr
       td.section
-        .vehicle-title 6 Passenger Non-Stretch SUV
+        .vehicle-title Classic Trolley – 28 Passengers
         table(width='100%' cellpadding='0' cellspacing='0')
           tr
             td(align='center' valign='top' style='padding-right:10px;')
-              div(style='width:100%; max-width:300px; height:200px; overflow:hidden; border-radius:6px;')
-                img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png' alt='6 Passenger SUV' style='width:100%; height:auto; object-fit:cover; display:block;')
+                img(src='cid:whiteTrolley@cid' alt='Classic Trolley' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
             td(align='center' valign='top')
-              div(style='width:100%; max-width:300px; height:200px; overflow:hidden; border-radius:6px;')
-                img(src='https://live.staticflickr.com/8197/8179491761_45db534a3e_b.jpg' alt='Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block;')
+                img(src='cid:whiteTrolleyInterior@cid' alt='Classic Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
         .price-block
-          | Min hours: 8 at 
-          strong $250/hr
+          | Min hours: 5 at 
+          strong $290/hr
         a.button(href=payment_link) Book Now
         .no-fees No Hidden Fees, Service Charge Included!
     tr
       td.section
-        .vehicle-title Black 8 Passenger Lincoln MKT Limo
+        .vehicle-title Green & Tan Trolley – 32 Passengers
         table(width='100%' cellpadding='0' cellspacing='0')
           tr
             td(align='center' valign='top' style='padding-right:10px;')
-              div(style='width:100%; max-width:300px; height:200px; overflow:hidden; border-radius:6px;')
-                img(src='https://img.masstransitmag.com/files/base/cygnus/mass/image/2017/02/Miami_Beach_Trolley_Press_Release___Jan_2017.58a71baa418a1.png' alt='6 Passenger SUV' style='width:100%; height:auto; object-fit:cover; display:block;')
+                img(src='cid:greenTanTrolley@cid' alt='Green & Tan Trolley' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
             td(align='center' valign='top')
-              div(style='width:100%; max-width:300px; height:200px; overflow:hidden; border-radius:6px;')
-                img(src='https://live.staticflickr.com/8197/8179491761_45db534a3e_b.jpg' alt='Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block;')
+                img(src='cid:greenTanTrolleyInterior@cid' alt='Green & Tan Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
         .price-block
-          | Min hours: 8 at 
-          strong $250/hr
+          | Min hours: 5 at 
+          strong $290/hr
+        a.button(target='_blank' rel='noopener noreferrer' href=payment_link) Book Now
+        .no-fees No Hidden Fees, Service Charge Included!
+    tr
+      td.section
+        .vehicle-title Red & Green Trolley - 30 Passengers
+        table(width='100%' cellpadding='0' cellspacing='0')
+          tr
+            td(align='center' valign='top' style='padding-right:10px;')
+                img(src='cid:redTrolley@cid' alt='Red & Green Trolley' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+            td(align='center' valign='top')
+                img(src='cid:redTrolleyInterior@cid' alt='Red & Green Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+        .price-block
+          | Min hours: 5 at 
+          strong $290/hr
         a.button(target='_blank' rel='noopener noreferrer' href=payment_link) Book Now
         .no-fees No Hidden Fees, Service Charge Included!
     tr
