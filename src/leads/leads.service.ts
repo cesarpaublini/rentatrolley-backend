@@ -192,6 +192,24 @@ export class LeadsService {
         },
       ],
     );
+    await this.mailService.sendEmail(
+      'reservations@rumbatoursmiami.com',
+      MailSubjects.NEW_LEAD,
+      MailTexts.NEW_LEAD,
+      MailTemplates.NEW_LEAD,
+      {
+        first_name: savedLead.first_name,
+        last_name: savedLead.last_name,
+        email: savedLead.email,
+        phone_number: savedLead.phone_number,
+        event_type: eventType.name,
+        pickup_location: savedLead.pickup_location,
+        drop_location: savedLead.drop_location,
+        pickup_date: formattedPickupDate,
+        pickup_time: formattedPickupTime,
+        special_requirements: savedLead.special_requirements,
+      },
+    );
     return savedLead;
   }
 
