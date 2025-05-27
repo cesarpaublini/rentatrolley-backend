@@ -15,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ContactModule } from './contact/contact.module';
 import { CustomersModule } from './customers/customers.module';
+import { CitiesDetailsModule } from './cities-details/cities-details.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -48,6 +49,7 @@ import { CustomersModule } from './customers/customers.module';
     ]),
     ContactModule,
     CustomersModule,
+    CitiesDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
