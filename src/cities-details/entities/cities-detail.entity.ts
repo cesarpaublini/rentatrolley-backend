@@ -12,8 +12,11 @@ export class CitiesDetail {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   city_id: number;
+
+  @Column({ unique: true })
+  slug: string;
 
   @Column({ type: 'jsonb' })
   details: JSON;

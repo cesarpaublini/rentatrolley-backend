@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 import { IsJSON } from 'class-validator';
 
@@ -13,7 +13,15 @@ export class CreateCitiesDetailDto {
   city_id: number;
 
   @ApiProperty({
-    description: 'The details of the city',
+    description: 'The slug of the city',
+    example: 'new-york',
+  })
+  @IsNotEmpty()
+  @IsString()
+  slug: string;
+
+  @ApiProperty({
+    description: 'The details of the city in a valid stringified JSON format',
     example: {
       name: 'New York',
     },

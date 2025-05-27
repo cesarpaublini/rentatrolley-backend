@@ -33,10 +33,10 @@ export class CitiesDetailsService {
     return citiesDetails;
   }
 
-  async findOne(id: number): Promise<CitiesDetail | null> {
-    const citiesDetail = await this.citiesDetailsRepository.findOneBy({ id });
+  async findOne(slug: string): Promise<CitiesDetail | null> {
+    const citiesDetail = await this.citiesDetailsRepository.findOneBy({ slug });
     if (!citiesDetail) {
-      throw new NotFoundException('Unable to find city detail');
+      throw new NotFoundException(`Unable to find city ${slug} detail`);
     }
     return citiesDetail;
   }

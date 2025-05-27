@@ -6,18 +6,13 @@ import {
   Patch,
   Param,
   Delete,
-  NotFoundException,
 } from '@nestjs/common';
 import { CitiesDetailsService } from './cities-details.service';
 import { CreateCitiesDetailDto } from './dto/create-cities-detail.dto';
 import { UpdateCitiesDetailDto } from './dto/update-cities-detail.dto';
-import { CitiesService } from 'src/cities/cities.service';
 @Controller('cities-details')
 export class CitiesDetailsController {
-  constructor(
-    private readonly citiesDetailsService: CitiesDetailsService,
-    private readonly citiesService: CitiesService,
-  ) {}
+  constructor(private readonly citiesDetailsService: CitiesDetailsService) {}
 
   @Post()
   create(@Body() createCitiesDetailDto: CreateCitiesDetailDto) {
@@ -30,12 +25,8 @@ export class CitiesDetailsController {
   }
 
   @Get(':slug')
-  async findOne(@Param('slug') slug: string) {
-    const citySlug = await this.citiesService.findOneBySlug(slug);
-    if (!citySlug) {
-      throw new NotFoundException('City not found for the given slug');
-    }
-    return this.citiesDetailsService.findOne(citySlug.id);
+  findOne(@Param('slug') slug: string) {
+    return this.citiesDetailsService.findOne(slug);
   }
 
   @Patch(':id')
