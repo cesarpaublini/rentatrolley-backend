@@ -44,7 +44,13 @@ export class CitiesService {
     }
     return city;
   }
-
+  async findOneBySlug(slug: string): Promise<City | null> {
+    const city = await this.cityRepository.findOneBy({ slug });
+    if (!city) {
+      throw new NotFoundException(`City with slug ${slug} not found`);
+    }
+    return city;
+  }
   async update(
     id: number,
     updateCityDto: UpdateCityDto,

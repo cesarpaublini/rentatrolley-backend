@@ -1,26 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCitiesDetailDto } from './dto/create-cities-detail.dto';
 import { UpdateCitiesDetailDto } from './dto/update-cities-detail.dto';
+import { CitiesDetail } from './entities/cities-detail.entity';
+import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CitiesDetailsService {
-  create(createCitiesDetailDto: CreateCitiesDetailDto) {
-    return 'This action adds a new citiesDetail';
+  constructor(
+    @InjectRepository(CitiesDetail)
+    private citiesDetailsRepository: Repository<CitiesDetail>,
+  ) {}
+  async create(createCitiesDetailDto: CreateCitiesDetailDto) {
+    const citiesDetail = this.citiesDetailsRepository.create(
+      createCitiesDetailDto,
+    );
+    if (!citiesDetail) {
+      throw new BadRequestException('Unable to create city detail');
+    }
+    return this.citiesDetailsRepository.save(citiesDetail);
   }
 
-  findAll() {
-    return `This action returns all citiesDetails`;
+  async findAll(): Promise<CitiesDetail[] | null> {
+    const citiesDetails = await this.citiesDetailsRepository.find();
+    if (!citiesDetails) {
+      throw new NotFoundException('Unable to find city details');
+    }
+    return citiesDetails;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} citiesDetail`;
+  async findOne(id: number): Promise<CitiesDetail | null> {
+    const citiesDetail = await this.citiesDetailsRepository.findOneBy({ id });
+    if (!citiesDetail) {
+      throw new NotFoundException('Unable to find city detail');
+    }
+    return citiesDetail;
+  }
+  async update(
+    id: number,
+    updateCitiesDetailDto: UpdateCitiesDetailDto,
+  ): Promise<UpdateResult> {
+    const citiesDetail = await this.citiesDetailsRepository.findOneBy({ id });
+    if (!citiesDetail) {
+      throw new NotFoundException('Unable to find city detail');
+    }
+    return this.citiesDetailsRepository.update(id, updateCitiesDetailDto);
   }
 
-  update(id: number, updateCitiesDetailDto: UpdateCitiesDetailDto) {
-    return `This action updates a #${id} citiesDetail`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} citiesDetail`;
+  async remove(id: number): Promise<DeleteResult> {
+    const citiesDetail = await this.citiesDetailsRepository.findOneBy({ id });
+    if (!citiesDetail) {
+      throw new NotFoundException('Unable to find city detail');
+    }
+    return this.citiesDetailsRepository.softDelete(id);
   }
 }
