@@ -21,7 +21,7 @@ export class City {
   @JoinColumn({ name: 'state_id' })
   state: State;
 
-  @Column()
+  @Column({ nullable: true })
   slug: string;
 
   @Column()

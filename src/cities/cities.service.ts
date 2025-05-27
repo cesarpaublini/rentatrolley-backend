@@ -33,7 +33,7 @@ export class CitiesService {
     });
     return cities.map((city) => {
       const { state, ...rest } = city;
-      return { id: rest.id, name: rest.name, state };
+      return { id: rest.id, name: rest.name, slug: rest.slug, state };
     });
   }
 
