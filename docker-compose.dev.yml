@@ -1,21 +1,5 @@
 services:
   backend:
-    build: .
-    container_name: rentatrolley_backend_dev
-    env_file:
-      - .env.dev
-    ports:
-      - "6000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
+    environment:
+      - NODE_ENV=development
     command: npm run start:dev
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-          ignore:
-            - node_modules
-        - action: rebuild
-          path: package.json
