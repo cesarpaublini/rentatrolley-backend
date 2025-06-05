@@ -5,7 +5,7 @@ set -e
 
 echo "Starting development Docker Compose..."
 
-docker-compose \
+docker compose \
   -p dev_rentatrolley \
   -f docker-compose.yml \
   -f docker-compose.dev.yml \

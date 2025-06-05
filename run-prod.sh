@@ -8,7 +8,7 @@ set -e
 
 echo "Starting production Docker Compose..."
 
-docker-compose \
+docker compose \
   -p prod_rentatrolley \
   -f docker-compose.yml \
   -f docker-compose.prod.yml \
