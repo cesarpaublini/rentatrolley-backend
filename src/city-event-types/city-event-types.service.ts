@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { CreateCityEventTypeDto } from './dto/create-city-event-type.dto';
 import { UpdateCityEventTypeDto } from './dto/update-city-event-type.dto';
-
+import { CityEventType } from './entities/city-event-type.entity';
+import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class CityEventTypesService {
-  create(createCityEventTypeDto: CreateCityEventTypeDto) {
-    return 'This action adds a new cityEventType';
+  constructor(
+    @InjectRepository(CityEventType)
+    private cityEventTypeRepository: Repository<CityEventType>,
+  ) {}
+
+  async create(createCityEventTypeDto: CreateCityEventTypeDto) {
+    const cityEventType = await this.cityEventTypeRepository.findOneBy({
+      city_id: createCityEventTypeDto.city_id,
+      event_type_id: createCityEventTypeDto.event_type_id,
+    });
+    if (cityEventType) {
+      throw new ConflictException('City event type already exists');
+    }
+    return this.cityEventTypeRepository.save(createCityEventTypeDto);
+  }
+  findAll(): Promise<CityEventType[]> {
+    return this.cityEventTypeRepository.find();
   }
 
-  findAll() {
-    return `This action returns all cityEventTypes`;
+  async findOne(id: number): Promise<CityEventType | null> {
+    const cityEventType = await this.cityEventTypeRepository.findOneBy({ id });
+    if (!cityEventType) {
+      throw new NotFoundException(`City event type with ID ${id} not found`);
+    }
+    return cityEventType;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cityEventType`;
+  async update(
+    id: number,
+    updateCityEventTypeDto: UpdateCityEventTypeDto,
+  ): Promise<UpdateResult> {
+    const cityEventType = await this.findOne(id);
+    if (!cityEventType) {
+      throw new NotFoundException(`City event type with ID ${id} not found`);
+    }
+    return this.cityEventTypeRepository.update(id, updateCityEventTypeDto);
   }
 
-  update(id: number, updateCityEventTypeDto: UpdateCityEventTypeDto) {
-    return `This action updates a #${id} cityEventType`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} cityEventType`;
+  async remove(id: number): Promise<DeleteResult> {
+    const cityEventType = await this.findOne(id);
+    if (!cityEventType) {
+      throw new NotFoundException(`City event type with ID ${id} not found`);
+    }
+    return this.cityEventTypeRepository.softDelete(id);
   }
 }

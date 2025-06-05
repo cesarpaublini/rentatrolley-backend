@@ -1,5 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
+import { State } from '../../states/entities/state.entity';
 @Entity('cities')
 export class City {
   @PrimaryGeneratedColumn()
@@ -8,15 +17,22 @@ export class City {
   @Column()
   name: string;
 
+  @ManyToOne(() => State)
+  @JoinColumn({ name: 'state_id' })
+  state: State;
+
+  @Column({ nullable: true })
+  slug: string;
+
   @Column()
   state_id: number;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at: Date;
 }

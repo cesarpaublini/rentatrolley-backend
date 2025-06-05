@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+  body(style='margin: 0; padding: 0; font-family: Arial, sans-serif;')
+    table(width='100%' cellpadding='0' cellspacing='0' border='0')
+      tr
+        td(style='background-color: #000; text-align: center; padding: 20px;')
+          img(src='cid:logo@cid' alt='Rent A Trolley Logo' width='100' height='100' style='width: 100px; height: 100px; display: block; margin: 0 auto;')
+      tr
+        td(style='padding: 20px;')
+          h1(style='font-size: 24px; margin: 0 0 20px 0;') Contact Us Form Submission
+          p(style='margin: 0 0 10px 0;')
+            | Hello, you have received a new message from the contact form on Rent A Trolley.
+          p(style='margin: 0 0 10px 0;')
+            strong Name: 
+            | #{full_name} - #{email}
+          p(style='margin: 0 0 10px 0;')
+            strong Subject: 
+            | #{subject}
+          p(style='margin: 0 0 10px 0;')
+            strong Message: 
+            | #{message}

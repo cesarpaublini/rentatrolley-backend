@@ -1,0 +1,162 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  title Trip Details - Rent a Trolley
+  style.
+    body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    }
+    table {
+    border-spacing: 0;
+    font-family: Arial, sans-serif;
+    color: #000000;
+    }
+    img {
+    display: block;
+    border: 0;
+    line-height: 0;
+    }
+    .container {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    }
+    .header {
+    background-color: #000000;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    }
+    .section {
+    border-bottom: 1px solid #cccccc;
+    padding: 20px;
+    }
+    .vehicle-title {
+    font-size: 20px;
+    color: #003399;
+    font-weight: bold;
+    padding-bottom: 10px;
+    }
+    .price-block {
+    font-size: 16px;
+    padding-top: 10px;
+    }
+    .button {
+    display: inline-block;
+    background-color: #0055cc;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 10px;
+    }
+    .no-fees {
+    font-style: italic;
+    font-size: 12px;
+    padding-top: 10px;
+    }
+    .highlight {
+    color: #006400;
+    font-weight: bold;
+    font-size: 14px;
+    }
+    .metrics {
+    color: green;
+    font-size: 14px;
+    padding-top: 10px;
+    }
+    .disclaimer {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 20px;
+    text-align: center;
+    }
+    .footer {
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    padding: 20px;
+    }
+    .footer a {
+    color: #ffffff;
+    text-decoration: none;
+    }
+    .footer a:hover {
+    text-decoration: underline;
+    }
+center.container
+  table(width='100%' cellpadding='0' cellspacing='0')
+    tr
+      td.header
+        img(
+          src='cid:logo@cid'
+          alt='Rent a Trolley Logo'
+          height='80'
+          style='height:80px; display:block; margin: 0 auto;'
+)
+        h1 Trip Details
+        p
+          | Pick Up Location: #{ pickup_location }
+          br
+          |             Destination: #{ drop_location }
+          br
+          |             Date: #{ pickup_date } at #{ pickup_time }
+    tr
+      td.section
+        p.highlight
+          | Rent a Trolley is One of the Nation&apos;s Largest, Highest Rated Limousine &amp; Bus Providers
+        p.metrics &#x2714; 13 Years in Business &nbsp; &#x2714; 3,500+ 5-Star Reviews &nbsp; &#x2714; 1,000,000+ Riders
+    tr
+      td.section
+        .vehicle-title Classic Trolley – 28 Passengers
+        table(width='100%' cellpadding='0' cellspacing='0')
+          tr
+            td(align='center' valign='top' style='padding-right:10px;')
+                img(src='cid:whiteTrolley@cid' alt='Classic Trolley' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+            td(align='center' valign='top')
+                img(src='cid:whiteTrolleyInterior@cid' alt='Classic Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+        .price-block
+          | Min hours: 5 at 
+          strong $290/hr
+        a.button(href=payment_link) Book Now
+        .no-fees No Hidden Fees, Service Charge Included!
+    tr
+      td.section
+        .vehicle-title Green & Tan Trolley – 32 Passengers
+        table(width='100%' cellpadding='0' cellspacing='0')
+          tr
+            td(align='center' valign='top' style='padding-right:10px;')
+                img(src='cid:greenTanTrolley@cid' alt='Green & Tan Trolley' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+            td(align='center' valign='top')
+                img(src='cid:greenTanTrolleyInterior@cid' alt='Green & Tan Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+        .price-block
+          | Min hours: 5 at 
+          strong $290/hr
+        a.button(target='_blank' rel='noopener noreferrer' href=payment_link) Book Now
+        .no-fees No Hidden Fees, Service Charge Included!
+    tr
+      td.section
+        .vehicle-title Red & Green Trolley - 30 Passengers
+        table(width='100%' cellpadding='0' cellspacing='0')
+          tr
+            td(align='center' valign='top' style='padding-right:10px;')
+                img(src='cid:redTrolley@cid' alt='Red & Green Trolley' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+            td(align='center' valign='top')
+                img(src='cid:redTrolleyInterior@cid' alt='Red & Green Trolley Interior' style='width:100%; height:auto; object-fit:cover; display:block; border-radius: 20px;')
+        .price-block
+          | Min hours: 5 at 
+          strong $290/hr
+        a.button(target='_blank' rel='noopener noreferrer' href=payment_link) Book Now
+        .no-fees No Hidden Fees, Service Charge Included!
+    tr
+      td.disclaimer
+        | All images are for illustrative purposes only. Actual vehicle may vary.
+    tr
+      td.footer
+        p &copy; 2025 Rent A Trolley. All rights reserved.
+        p
+          a(target='_blank' rel='noopener noreferrer' href='https://www.rentatrolley.com/terms-of-service') Terms of Service

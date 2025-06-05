@@ -1,24 +1,39 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
+import { Country } from '../../countries/entities/country.entity';
 
 @Entity('states')
 export class State {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
   abbreviation: string;
+
+  @ManyToOne(() => Country)
+  @JoinColumn({ name: 'country_id' })
+  country: Country;
+
   @Column()
   country_id: number;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at: Date;
 }

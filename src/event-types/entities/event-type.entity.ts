@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('event_types')
 export class EventType {
@@ -8,12 +15,24 @@ export class EventType {
   @Column()
   name: string;
 
+  @Column({ default: 2900 })
+  price: number;
+
   @Column()
+  description: string;
+
+  @Column()
+  stripe_product_id: string;
+
+  @Column()
+  stripe_price_id: string;
+
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at: Date;
 }

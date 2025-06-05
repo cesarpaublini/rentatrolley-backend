@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCountryDto } from './dto/create-country.dto';
 import { UpdateCountryDto } from './dto/update-country.dto';
+import { Repository, UpdateResult } from 'typeorm';
+import { Country } from './entities/country.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CountriesService {
-  create(createCountryDto: CreateCountryDto) {
-    return 'This action adds a new country';
+  constructor(
+    @InjectRepository(Country)
+    private countryRepository: Repository<Country>,
+  ) {}
+
+  async create(createCountryDto: CreateCountryDto): Promise<Country> {
+    const country = await this.countryRepository.findOneBy({
+      name: createCountryDto.name,
+    });
+    if (country) {
+      throw new ConflictException('Country already exists');
+    }
+    return this.countryRepository.save(createCountryDto);
   }
 
-  findAll() {
-    return `This action returns all countries`;
+  findAll(): Promise<Country[]> {
+    return this.countryRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} country`;
+  async findOne(id: number): Promise<Country | null> {
+    const country = await this.countryRepository.findOneBy({ id });
+    if (!country) {
+      throw new NotFoundException(`Country with ID ${id} not found`);
+    }
+    return country;
   }
 
-  update(id: number, updateCountryDto: UpdateCountryDto) {
-    return `This action updates a #${id} country`;
+  async update(
+    id: number,
+    updateCountryDto: UpdateCountryDto,
+  ): Promise<UpdateResult> {
+    const country = await this.countryRepository.findOneBy({ id });
+    if (!country) {
+      throw new NotFoundException(`Country with ID ${id} not found`);
+    }
+    return this.countryRepository.update(id, updateCountryDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} country`;
+  async remove(id: number): Promise<UpdateResult> {
+    const country = await this.findOne(id);
+    if (!country) {
+      throw new NotFoundException(`Country with ID ${id} not found`);
+    }
+    return this.countryRepository.softDelete(id);
   }
 }

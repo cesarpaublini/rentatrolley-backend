@@ -1,0 +1,54 @@
+doctype html
+html
+  head
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        background-color: #f8f8f8;
+        text-align: center;
+        padding: 20px;
+      }
+      .content {
+        padding: 20px;
+      }
+  body
+    .header
+      h1 New Lead Notification
+    .content
+      p
+        | Hello Team,
+      p
+        | A new lead has been created with the following details:
+      p
+        strong Name: 
+        | #{first_name} #{last_name}
+      p
+        strong Email: 
+        | #{email}
+      p
+        strong Phone Number: 
+        | #{phone_number}
+      p
+        strong Event Type: 
+        | #{event_type}
+      p
+        strong Pickup Location: 
+        | #{pickup_location}
+      p
+        strong Drop Location: 
+        | #{drop_location}
+      p
+        strong Pickup Date: 
+        | #{pickup_date}
+      p
+        strong Pickup Time: 
+        | #{pickup_time}
+      p
+        strong Special Requirements: 
+        | #{special_requirements}
+      p
+        | Please follow up with the lead as soon as possible.

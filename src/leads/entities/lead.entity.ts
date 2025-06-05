@@ -1,4 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { City } from 'src/cities/entities/city.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 
 @Entity('leads')
 export class Lead {
@@ -17,45 +27,61 @@ export class Lead {
   @Column()
   phone_number: string;
 
-  @Column()
-  city_id: number;
+  @ManyToOne(() => City)
+  @JoinColumn({ name: 'event_city_id' })
+  event_city: City;
 
-  @Column()
+  @Column({ nullable: true })
+  event_city_id: number;
+
+  @Column({ nullable: true })
+  vehicle_type: string;
+
+  @Column({ nullable: true })
   event_type_id: number;
 
-  @Column()
+  @Column({ nullable: true })
   event_date: Date;
 
-  @Column()
-  pickup_city_id: number;
+  @Column({ nullable: true })
+  pickup_location: string;
 
-  @Column()
-  drop_city_id: number;
+  @Column({ nullable: true })
+  drop_location: string;
 
-  @Column()
-  pickup_date_time: Date;
+  @Column({ nullable: true })
+  pickup_date: Date;
 
-  @Column()
+  @Column({ nullable: true })
+  pickup_time: string;
+
+  @Column({ nullable: true })
   duration_hours: number;
 
-  @Column()
+  @Column({ nullable: true })
   trolley_type: string;
 
-  @Column()
+  @Column({ nullable: true })
   return_trip: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   passenger_count: number;
 
-  @Column()
+  @Column({ nullable: true })
   special_requirements: string;
 
-  @Column()
+  @Column({ nullable: true })
+  trolley_amount: number;
+
+  @Column({ default: () => 'gen_random_uuid()' })
+  uuid: string;
+
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at: Date;
 }
