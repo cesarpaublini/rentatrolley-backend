@@ -1,36 +1,29 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:16
-    container_name: rentatrolley_db
     environment:
-      POSTGRES_HOST: ${DB_HOST}
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
 
   backend:
     build: .
-    container_name: rentatrolley_backend
     depends_on:
       - db
     env_file:
-      - .env
+      - ${ENV_FILE}
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
-      - "3000:3000"
-    command: npm run start:prod
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-          ignore:
-            - node_modules
-        - action: rebuild
-          path: package.json
+      - "${APP_PORT:-3000}:3000"
+    command: npm run ${START_COMMAND:-start:prod}
 
 volumes:
   postgres_data:
