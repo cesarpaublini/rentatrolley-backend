@@ -16,15 +16,21 @@ export class MailService {
     bcc?: string[],
     replyTo?: string,
   ) {
-    await this.mailerService.sendMail({
-      to,
-      subject,
-      text,
-      template,
-      context,
-      attachments,
-      bcc,
-      replyTo,
-    });
+    try {
+      console.log('Sending email to', to);
+      await this.mailerService.sendMail({
+        to,
+        subject,
+        text,
+        template,
+        context,
+        attachments,
+        bcc,
+        replyTo,
+      });
+      console.log('Email sent to', to);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   }
 }
