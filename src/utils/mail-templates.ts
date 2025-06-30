@@ -3,6 +3,7 @@ export enum MailTemplates {
   CONTACT_US = 'contact-us',
   PURCHASE = 'purchase',
   NEW_LEAD = 'new-lead',
+  SUBSCRIBE = 'subscribe',
 }
 
 export enum MailSubjects {
@@ -10,6 +11,7 @@ export enum MailSubjects {
   CONTACT_US = 'Contact Us',
   PURCHASE = 'Purchase Confirmation',
   NEW_LEAD = 'New Lead Notification',
+  SUBSCRIBE = 'Subscribe',
 }
 
 export enum MailTexts {
@@ -17,4 +19,5 @@ export enum MailTexts {
   CONTACT_US = 'Contact Us',
   PURCHASE = 'Purchase Confirmation',
   NEW_LEAD = 'New Lead Notification',
+  SUBSCRIBE = 'New Subscriber',
 }
