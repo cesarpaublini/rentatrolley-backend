@@ -140,58 +140,58 @@ export class LeadsService {
       hour12: true,
     }).format(new Date(`1970-01-01T${savedLead.pickup_time}:00`));
 
-    await this.mailService.sendEmail(
-      savedLead.email,
-      MailSubjects.WELCOME,
-      MailTexts.WELCOME,
-      MailTemplates.WELCOME,
-      {
-        name: `${savedLead.first_name} ${savedLead.last_name}`,
-        city: savedLead.event_city?.name,
-        pickup_location: savedLead.pickup_location,
-        drop_location: savedLead.drop_location,
-        pickup_date: formattedPickupDate,
-        pickup_time: formattedPickupTime,
-        payment_link: paymentLink,
-      },
-      [
-        {
-          filename: 'RentATrolley_Icon_Black_Red.png',
-          path: imagePath,
-          cid: 'logo@cid',
-        },
-        {
-          filename: 'RentAtrolley-exterior-3.png',
-          path: whiteTrolleyExteriorImagePath,
-          cid: 'whiteTrolley@cid',
-        },
-        {
-          filename: 'RentAtrolley-interior-3.png',
-          path: whiteTrolleyInteriorImagePath,
-          cid: 'whiteTrolleyInterior@cid',
-        },
-        {
-          filename: 'RentAtrolley-exterior-2.png',
-          path: greenTanTrolleyExteriorImagePath,
-          cid: 'greenTanTrolley@cid',
-        },
-        {
-          filename: 'RentAtrolley-interior-2.png',
-          path: greenTanTrolleyInteriorImagePath,
-          cid: 'greenTanTrolleyInterior@cid',
-        },
-        {
-          filename: 'RentAtrolley-exterior-4.png',
-          path: redTrolleyExteriorImagePath,
-          cid: 'redTrolley@cid',
-        },
-        {
-          filename: 'RentAtrolley-interior-4.png',
-          path: redTrolleyInteriorImagePath,
-          cid: 'redTrolleyInterior@cid',
-        },
-      ],
-    );
+    // await this.mailService.sendEmail(
+    //   savedLead.email,
+    //   MailSubjects.WELCOME,
+    //   MailTexts.WELCOME,
+    //   MailTemplates.WELCOME,
+    //   {
+    //     name: `${savedLead.first_name} ${savedLead.last_name}`,
+    //     city: savedLead.event_city?.name,
+    //     pickup_location: savedLead.pickup_location,
+    //     drop_location: savedLead.drop_location,
+    //     pickup_date: formattedPickupDate,
+    //     pickup_time: formattedPickupTime,
+    //     payment_link: paymentLink,
+    //   },
+    //   [
+    //     {
+    //       filename: 'RentATrolley_Icon_Black_Red.png',
+    //       path: imagePath,
+    //       cid: 'logo@cid',
+    //     },
+    //     {
+    //       filename: 'RentAtrolley-exterior-3.png',
+    //       path: whiteTrolleyExteriorImagePath,
+    //       cid: 'whiteTrolley@cid',
+    //     },
+    //     {
+    //       filename: 'RentAtrolley-interior-3.png',
+    //       path: whiteTrolleyInteriorImagePath,
+    //       cid: 'whiteTrolleyInterior@cid',
+    //     },
+    //     {
+    //       filename: 'RentAtrolley-exterior-2.png',
+    //       path: greenTanTrolleyExteriorImagePath,
+    //       cid: 'greenTanTrolley@cid',
+    //     },
+    //     {
+    //       filename: 'RentAtrolley-interior-2.png',
+    //       path: greenTanTrolleyInteriorImagePath,
+    //       cid: 'greenTanTrolleyInterior@cid',
+    //     },
+    //     {
+    //       filename: 'RentAtrolley-exterior-4.png',
+    //       path: redTrolleyExteriorImagePath,
+    //       cid: 'redTrolley@cid',
+    //     },
+    //     {
+    //       filename: 'RentAtrolley-interior-4.png',
+    //       path: redTrolleyInteriorImagePath,
+    //       cid: 'redTrolleyInterior@cid',
+    //     },
+    //   ],
+    // );
     await this.mailService.sendEmail(
       'reservations@rumbatoursmiami.com',
       MailSubjects.NEW_LEAD,
@@ -205,10 +205,16 @@ export class LeadsService {
         event_type: eventType.name,
         pickup_location: savedLead.pickup_location,
         drop_location: savedLead.drop_location,
+        duration_hours: savedLead.duration_hours,
+        passenger_count: savedLead.passenger_count,
+        trolley_amount: savedLead.trolley_amount,
+        event_city: city.name,
         pickup_date: formattedPickupDate,
         pickup_time: formattedPickupTime,
         special_requirements: savedLead.special_requirements,
       },
+      undefined,
+      ['hello@rentatrolley.com'],
     );
     return savedLead;
   }
